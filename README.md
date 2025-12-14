@@ -134,7 +134,7 @@ asyncio.run(main())
 ## Development
 
 ```bash
-git clone https://github.com/franciscopr/engram.git
+git clone https://github.com/akercitocoder/engram.git
 cd engram
 
 pip install -e ".[dev]"

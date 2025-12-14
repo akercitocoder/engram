@@ -43,9 +43,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/franciscopr/engram"
-Repository = "https://github.com/franciscopr/engram"
-Documentation = "https://github.com/franciscopr/engram#readme"
+Homepage = "https://github.com/akercitocoder/engram"
+Repository = "https://github.com/akercitocoder/engram"
+Documentation = "https://github.com/akercitocoder/engram#readme"
 
 [build-system]
 requires = ["hatchling"]
