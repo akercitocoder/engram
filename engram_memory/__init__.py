@@ -38,6 +38,7 @@ from engram_memory.core.interfaces import (
 from engram_memory.working.memory import WorkingMemory
 from engram_memory.episodic.memory import EpisodicMemory, Episode, EpisodeType
 from engram_memory.episodic.storage import ChromaDBStore, QdrantStore
+from engram_memory.semantic.memory import SemanticMemory, Entity, EntityType, Relationship, Fact
 
 __version__ = "0.1.0"
 
@@ -55,6 +56,12 @@ __all__ = [
     "EpisodicMemory",
     "Episode",
     "EpisodeType",
+    # Semantic Memory
+    "SemanticMemory",
+    "Entity",
+    "EntityType",
+    "Relationship",
+    "Fact",
     # Storage backends
     "ChromaDBStore",
     "QdrantStore",

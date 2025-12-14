@@ -6,7 +6,7 @@
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Tests](https://img.shields.io/badge/tests-104%20passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/tests-136%20passed-brightgreen.svg)]()
 
 ## What is Engram?
 
@@ -103,8 +103,38 @@ asyncio.run(main())
 |--------|---------|---------|--------|
 | **Working** | Current conversation context | In-memory + JSON | Done |
 | **Episodic** | Past experiences & conversations | ChromaDB | Done |
-| **Semantic** | Facts, entities, relationships | NetworkX | Planned |
+| **Semantic** | Facts, entities, relationships | NetworkX | Done |
 | **Procedural** | Learned preferences & patterns | JSON | Planned |
+
+### Semantic Memory (Knowledge Graph)
+
+```python
+import asyncio
+from engram_memory import SemanticMemory, EntityType
+
+async def main():
+    memory = SemanticMemory(persist_path="./engram_data/knowledge.json")
+
+    # Store facts as triples
+    await memory.add_fact("user", "prefers", "TypeScript",
+                          subject_type=EntityType.USER,
+                          object_type=EntityType.TECHNOLOGY)
+    await memory.add_fact("myapp", "uses", "PostgreSQL",
+                          subject_type=EntityType.PROJECT,
+                          object_type=EntityType.DATABASE)
+
+    # Query relationships
+    user = await memory.get_entity_by_name("user")
+    preferences = await memory.get_related(user.id, relation_type="prefers")
+    print(f"User prefers: {[p.name for p in preferences]}")
+
+    # Search facts
+    results = await memory.search_facts(subject="myapp", predicate="uses")
+    for subj, rel, obj in results:
+        print(f"{subj.name} {rel.relation_type} {obj.name}")
+
+asyncio.run(main())
+```
 
 ## Architecture
 
@@ -118,7 +148,7 @@ asyncio.run(main())
 │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐   │
 │  │ Working  │ │ Episodic │ │ Semantic │ │Procedural│   │
 │  │ Memory   │ │ Memory   │ │ Memory   │ │ Memory   │   │
-│  │   ✅     │ │    ✅    │ │  🔜      │ │   🔜     │   │
+│  │   ✅     │ │    ✅    │ │    ✅    │ │   🔜     │   │
 │  └──────────┘ └──────────┘ └──────────┘ └──────────┘   │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -152,7 +182,7 @@ mypy engram_memory
 - [x] Episodic Memory - vector-based experience recall
 - [x] ChromaDB integration
 - [x] Multiple embedding providers
-- [ ] Semantic Memory - knowledge graphs
+- [x] Semantic Memory - knowledge graphs with NetworkX
 - [ ] Procedural Memory - preference learning
 - [ ] Memory Coordinator - unified retrieval
 - [ ] Qdrant Cloud support
